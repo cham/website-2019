@@ -1,6 +1,20 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #123;
+  color: #eee;
+  font-family: sans-serif;
+}
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 .torus-demo {
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   z-index: 1;
 }
@@ -11,4 +25,8 @@
 .background {
   z-index: 0;
   position: relative;
+}
+section {
+  height: 100%;
+  padding: 0 60px;
 }
