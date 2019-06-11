@@ -14,7 +14,7 @@ var camera = new THREE.PerspectiveCamera(40, wSize.width / wSize.height)
 var renderer = new THREE.WebGLRenderer({ alpha: true })
 
 const spotlight = new THREE.SpotLight(0xEECCAA, 1)
-spotlight.position.set(0, 3000, 2000)
+spotlight.position.set(0, 300, 2000)
 
 scene.add(spotlight)
 
@@ -56,8 +56,6 @@ function tick(){
 }
 tick()
 
-const randInt = n => Math.floor(Math.random() * n)
-
 const mmo = (g, m) => {
   const group = new THREE.Group()
   for (let i = 0, l = m.length; i < l; i ++) {
@@ -66,8 +64,15 @@ const mmo = (g, m) => {
   return group
 }
 
-var material = new THREE.MeshPhongMaterial({
-  color: 0x112233
+var material = new THREE.MeshStandardMaterial({
+  color: 0x112233,
+  roughness: 0.3,
+  metalness: 0.6,
+  opacity: 1
+})
+var phongMaterial = new THREE.MeshPhongMaterial({
+  color: 0x112233,
+  opacity: 0.1
 })
 var wireframeMaterial  = new THREE.MeshBasicMaterial({
   color: 0x666699,
@@ -87,6 +92,7 @@ const addObj = (path, scale, position, materials) => {
       })
       g.scale.set(scale, scale, scale)
       g.position.copy(position)
+      g.rotation.set(0, -Math.PI/8, 0)
       scene.add(g)
       lastRotation = Infinity
     }
@@ -99,6 +105,6 @@ renderer.domElement.className = 'torus-demo'
 
 const setCameraRotation = () => {
   requestAnimationFrame(setCameraRotation)
-  cameraRotation = -window.scrollY / 300
+  cameraRotation = -window.scrollY / 600
 }
 requestAnimationFrame(setCameraRotation)
