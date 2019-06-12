@@ -2,7 +2,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #123;
+  background-color: #111;
   color: #eee;
   font-family: sans-serif;
 }
@@ -12,10 +12,13 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
-.torus-demo {
+.webgl-demo {
   pointer-events: none;
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1;
 }
 .foreground {
@@ -26,7 +29,26 @@ html {
   z-index: 0;
   position: relative;
 }
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+  box-shadow: inset 0px 0px 200px 0px rgba(0,0,0,0.75);
+  z-index: 2;
+}
 section {
-  height: 100%;
+  min-height: 100%;
+}
+.blockbg {
+  background: #111;
+  display: inline-block;
+}
+.strap {
+  background: #eee;
+}
+.strap, section {
   padding: 0 60px;
 }
