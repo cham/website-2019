@@ -29,9 +29,13 @@ window.onresize = function(){
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-
+let lastCameraPosition = new THREE.Vector3()
+let forceRender = false
 const renderLoop = () => {
   requestAnimationFrame(renderLoop)
-  renderer.render(scene, camera)
+  if (forceRender || camera.position.clone().sub(lastCameraPosition).length()) {
+    renderer.render(scene, camera)
+  }
+  lastCameraPosition = camera.position.clone()
 }
 requestAnimationFrame(renderLoop)

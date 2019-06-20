@@ -2,20 +2,22 @@ const config = {
   videoWidth: 1620,
   videoHeight: 1080,
   scollCoeff: 150,
-  camY: 0,
   size: 20,
   aspect: 0,
   boxHeight: 0,
-  cameraDistance: 30
+  cameraX: 0,
+  cameraY: 0,
+  cameraZ: 0
 }
 const gui = new dat.gui.GUI()
 gui.remember(config)
 gui.add(config, 'videoWidth')
 gui.add(config, 'videoHeight')
 gui.add(config, 'scollCoeff')
-gui.add(config, 'camY', -50, 50)
 gui.add(config, 'size')
-gui.add(config, 'cameraDistance', 0, 100)
+gui.add(config, 'cameraX', -100, 100)
+gui.add(config, 'cameraY', -100, 100)
+gui.add(config, 'cameraZ', -100, 100)
 
 config.aspect = config.videoWidth / config.videoHeight
 config.boxHeight = config.size / config.aspect
@@ -95,23 +97,56 @@ const cubeConfig = [
   }
 ]
 
-scene.add(makeVideoCube(cubeConfig))
+const videoCube = makeVideoCube(cubeConfig)
+videoCube.position.z = 0.5 * config.boxHeight
+scene.add(videoCube)
 
-cubeConfig[0].video.play()
-
-const watchScroll = () => {
-  let cameraRotation = 0
-  let lastCameraRotation = cameraRotation
+const watchCameraPosition = () => {
   const tick = () => {
     requestAnimationFrame(tick)
-
-    cameraRotation = window.scrollY / config.scollCoeff
-    camera.position.x = (Math.sin(cameraRotation) * config.cameraDistance)
-    camera.position.y = config.camY
-    camera.position.z = (Math.cos(cameraRotation) * config.cameraDistance)
+    camera.position.x = config.cameraX
+    camera.position.y = config.cameraY
+    camera.position.z = config.cameraZ
     camera.lookAt(new THREE.Vector3(0, 0, 0))
-    lastCameraRotation = cameraRotation
   }
   requestAnimationFrame(tick)
 }
-watchScroll()
+watchCameraPosition()
+
+
+const axesHelper = new THREE.AxesHelper(50)
+scene.add(axesHelper)
+
+// waypoints
+const rest = (side) => {
+  config.cameraX = 0
+  config.cameraY = 0
+  config.cameraZ = 0
+  cubeConfig.forEach(cubeDatum => cubeDatum.video.pause())
+  forceRender = true
+  setTimeout(() => { forceRender = false }, 10000)
+  switch (side) {
+    case 'front':
+      config.cameraZ = 20
+      cubeConfig[0].video.play()
+      // need to wait for onloadedmetadata for duration to work
+      // setTimeout(() => { forceRender = false }, cubeConfig[0].video.duration * 1000)
+      break
+    case 'top':
+      config.cameraY = 20
+      cubeConfig[1].video.play()
+      // setTimeout(() => { forceRender = false }, cubeConfig[1].video.duration * 1000)
+      break
+    case 'back':
+      config.cameraZ = -20
+      cubeConfig[2].video.play()
+      // setTimeout(() => { forceRender = false }, cubeConfig[2].video.duration * 1000)
+      break
+    case 'bottom':
+      config.cameraY = -20
+      cubeConfig[3].video.play()
+      // setTimeout(() => { forceRender = false }, cubeConfig[3].video.duration * 1000)
+      break
+  }
+}
+rest('front')
