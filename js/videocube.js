@@ -1,9 +1,9 @@
 const config = {
   videoWidth: 1620,
   videoHeight: 1080,
-  scollCoeff: 500,
+  scollCoeff: 150,
   camY: 0,
-  size: 10,
+  size: 20,
   aspect: 0,
   boxHeight: 0
 }
