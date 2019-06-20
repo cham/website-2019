@@ -29,21 +29,9 @@ window.onresize = function(){
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-const run = () => {
-  let cameraRotation = 0
-  let lastCameraRotation = cameraRotation
-  const tick = () => {
-    requestAnimationFrame(tick)
 
-    const camDist = 30
-    cameraRotation = window.scrollY / 500
-    camera.position.x = (Math.sin(cameraRotation) * camDist)
-    camera.position.z = (Math.cos(cameraRotation) * camDist) - (camDist/2) - (camDist/4)
-    camera.lookAt(new THREE.Vector3(0, 0, 0))
-
-    renderer.render(scene, camera)
-    lastCameraRotation = cameraRotation
-  }
-  requestAnimationFrame(tick)
+const renderLoop = () => {
+  requestAnimationFrame(renderLoop)
+  renderer.render(scene, camera)
 }
-run()
+requestAnimationFrame(renderLoop)
