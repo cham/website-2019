@@ -29,13 +29,29 @@ window.onresize = function(){
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-let lastCameraPosition = new THREE.Vector3()
+const rotationAsVector = () => {
+  return new THREE.Vector3(
+    camera.rotation.x,
+    camera.rotation.y,
+    camera.rotation.z
+  )
+}
+
+const prevCamera = {
+  position: new THREE.Vector3(),
+  rotation: new THREE.Vector3()
+}
 let forceRender = false
 const renderLoop = () => {
   requestAnimationFrame(renderLoop)
-  if (forceRender || camera.position.clone().sub(lastCameraPosition).length()) {
+  if (
+    forceRender ||
+    camera.position.clone().sub(prevCamera.position).length() ||
+    rotationAsVector().sub(prevCamera.rotation).length()
+  ) {
     renderer.render(scene, camera)
   }
-  lastCameraPosition = camera.position.clone()
+  prevCamera.position = camera.position.clone()
+  prevCamera.rotation = rotationAsVector()
 }
 requestAnimationFrame(renderLoop)
