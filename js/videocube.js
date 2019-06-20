@@ -8,6 +8,9 @@ const config = {
   cameraX: 0,
   cameraY: 0,
   cameraZ: 0,
+  cameraRotationX: 0.01,
+  cameraRotationY: 0.01,
+  cameraRotationZ: 0.01,
   videoPlaybackRate: 0.5
 }
 const gui = new dat.gui.GUI()
@@ -19,6 +22,9 @@ gui.add(config, 'size')
 gui.add(config, 'cameraX', -100, 100)
 gui.add(config, 'cameraY', -100, 100)
 gui.add(config, 'cameraZ', -100, 100)
+gui.add(config, 'cameraRotationX', -Math.PI, Math.PI)
+gui.add(config, 'cameraRotationY', -Math.PI, Math.PI)
+gui.add(config, 'cameraRotationZ', -Math.PI, Math.PI)
 gui.add(config, 'videoPlaybackRate', 0.5, 2)
 
 config.aspect = config.videoWidth / config.videoHeight
@@ -107,7 +113,9 @@ const watchCameraPosition = () => {
     camera.position.x = config.cameraX
     camera.position.y = config.cameraY
     camera.position.z = config.cameraZ
-    camera.lookAt(new THREE.Vector3(0, 0, 0))
+    camera.rotation.x = config.cameraRotationX
+    camera.rotation.y = config.cameraRotationY
+    camera.rotation.z = config.cameraRotationZ
   }
   requestAnimationFrame(tick)
 }
@@ -125,6 +133,9 @@ const runVideoCube = () => {
     config.cameraX = 0
     config.cameraY = 0
     config.cameraZ = 0
+    config.cameraRotationX = 0
+    config.cameraRotationY = 0
+    config.cameraRotationZ = 0
     cubeConfig.forEach(cubeDatum => cubeDatum.video.pause())
     forceRender = true
     switch (side) {
@@ -134,17 +145,29 @@ const runVideoCube = () => {
         setTimeout(() => { forceRender = false }, cubeConfig[0].video.duration * 1000 / config.videoPlaybackRate)
         break
       case 'top':
-        config.cameraY = 20
+        config.cameraX = -24
+        config.cameraY = 37
+        config.cameraRotationX = -Math.PI/2
+        config.cameraRotationY = -Math.PI/4
         cubeConfig[1].video.play()
         setTimeout(() => { forceRender = false }, cubeConfig[1].video.duration * 1000 / config.videoPlaybackRate)
         break
       case 'back':
-        config.cameraZ = -20
+        config.cameraX = -3
+        config.cameraY = -5
+        config.cameraZ = -45
+        config.cameraRotationX = Math.PI
+        config.cameraRotationY = -Math.PI/8
+        config.cameraRotationZ = Math.PI
         cubeConfig[2].video.play()
         setTimeout(() => { forceRender = false }, cubeConfig[2].video.duration * 1000 / config.videoPlaybackRate)
         break
       case 'bottom':
-        config.cameraY = -20
+        config.cameraX = -6
+        config.cameraY = -31
+        config.cameraZ = -19
+        config.cameraRotationX = 2.282
+        config.cameraRotationY = -0.521
         cubeConfig[3].video.play()
         setTimeout(() => { forceRender = false }, cubeConfig[3].video.duration * 1000 / config.videoPlaybackRate)
         break
