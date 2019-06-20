@@ -20,7 +20,7 @@ const getVideoTexture = (video) => {
 
 const makeVideoPlane = (datum) => {
   return new THREE.Mesh(
-    datum.isSide ?
+    datum.isCap ?
      new THREE.PlaneBufferGeometry(config.boxHeight, config.boxHeight)
      :
      new THREE.PlaneBufferGeometry(config.size, config.boxHeight),
@@ -39,59 +39,9 @@ const makeVideoCube = (sides) => {
   return g
 }
 
-const cubeConfig = [
-  { //front
-    video: makeVideo('./video/wheat.mp4'),
-    rotation: new THREE.Vector3(0, 0, 0),
-    position: new THREE.Vector3(0, 0, 0)
-  },
-  { //top
-    video: makeVideo('./video/penguin.mp4'),
-    rotation: new THREE.Vector3(-Math.PI/2, 0, 0),
-    position: new THREE.Vector3(0, 0.5 * config.boxHeight, -0.5 * config.boxHeight)
-  },
-  { //back
-    video: makeVideo('./video/lake.mp4'),
-    rotation: new THREE.Vector3(0, -Math.PI, 0),
-    position: new THREE.Vector3(0, 0, -config.boxHeight)
-  },
-  { //bottom
-    video: makeVideo('./video/river.mp4'),
-    rotation: new THREE.Vector3(Math.PI/2, 0, 0),
-    position: new THREE.Vector3(0, -0.5 * config.boxHeight, -0.5 * config.boxHeight)
-  },
-  { //right
-    video: makeVideo('./video/mountain.mp4'),
-    rotation: new THREE.Vector3(0, Math.PI/2, 0),
-    position: new THREE.Vector3(0.5 * config.size, 0, -0.5 * config.boxHeight),
-    isSide: true
-  },
-  { //left
-    video: makeVideo('./video/river.mp4'),
-    rotation: new THREE.Vector3(0, -Math.PI/2, 0),
-    position: new THREE.Vector3(-0.5 * config.size, 0, -0.5 * config.boxHeight),
-    isSide: true
-  }
-]
-
-const watchCameraPosition = () => {
-  const tick = () => {
-    requestAnimationFrame(tick)
-    camera.position.x = config.cameraX
-    camera.position.y = config.cameraY
-    camera.position.z = config.cameraZ
-    camera.rotation.x = config.cameraRotationX
-    camera.rotation.y = config.cameraRotationY
-    camera.rotation.z = config.cameraRotationZ
-  }
-  requestAnimationFrame(tick)
-}
-watchCameraPosition()
-
-const axesHelper = new THREE.AxesHelper(50)
-scene.add(axesHelper)
-
 const videoDurationMs = cubeDatum => cubeDatum.video.duration * 1000 / config.videoPlaybackRate
+
+cubeConfig.forEach(cubeDatum => cubeDatum.video = makeVideo(cubeDatum.videoSrc))
 
 const runVideoCube = () => {
   const videoCube = makeVideoCube(cubeConfig)
