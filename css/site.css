@@ -47,6 +47,9 @@ body .dg.ac {
 section {
   min-height: 100%;
 }
+img {
+  max-width: 100%;
+}
 .blockbg {
   background: #111;
   display: inline-block;
