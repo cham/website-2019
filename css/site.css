@@ -2,8 +2,8 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #111;
-  color: #eee;
+  background-color: #eee;
+  color: #111;
   font-family: sans-serif;
 }
 html {
@@ -46,17 +46,12 @@ body .dg.ac {
 }
 section {
   min-height: 100%;
+  padding: 0 12vw;
 }
 img {
   max-width: 100%;
 }
 .blockbg {
-  background: #111;
-  display: inline-block;
-}
-.strap {
   background: #eee;
-}
-.strap, section {
-  padding: 0 60px;
+  display: inline-block;
 }
