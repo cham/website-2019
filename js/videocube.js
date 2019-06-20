@@ -5,7 +5,8 @@ const config = {
   camY: 0,
   size: 20,
   aspect: 0,
-  boxHeight: 0
+  boxHeight: 0,
+  cameraDistance: 30
 }
 const gui = new dat.gui.GUI()
 gui.remember(config)
@@ -14,6 +15,7 @@ gui.add(config, 'videoHeight')
 gui.add(config, 'scollCoeff')
 gui.add(config, 'camY', -50, 50)
 gui.add(config, 'size')
+gui.add(config, 'cameraDistance', 0, 100)
 
 config.aspect = config.videoWidth / config.videoHeight
 config.boxHeight = config.size / config.aspect
@@ -103,11 +105,10 @@ const watchScroll = () => {
   const tick = () => {
     requestAnimationFrame(tick)
 
-    const camDist = 30
     cameraRotation = window.scrollY / config.scollCoeff
-    camera.position.x = (Math.sin(cameraRotation) * camDist)
+    camera.position.x = (Math.sin(cameraRotation) * config.cameraDistance)
     camera.position.y = config.camY
-    camera.position.z = (Math.cos(cameraRotation) * camDist)
+    camera.position.z = (Math.cos(cameraRotation) * config.cameraDistance)
     camera.lookAt(new THREE.Vector3(0, 0, 0))
     lastCameraRotation = cameraRotation
   }
